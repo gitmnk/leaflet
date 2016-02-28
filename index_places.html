@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Place searches</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                height: 100%;
+            }
+        </style>
+        <script>
+            // This example requires the Places library. Include the libraries=places
+            // parameter when you first load the API. For example:
+            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+                var map;
+                var infowindow;
+
+                function initMap() {
+                    var madrasCafe=new google.maps.LatLng(37.374284,-122.054956);
+                    var aire=new google.maps.LatLng(37.404950,-121.931996);
+                    var riverbed = new google.maps.LatLng(37.397707, -122.030075);
+                    var pyrmont = {lat: -33.867, lng: 151.195};
+
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: riverbed,
+                        zoom: 14
+                    });
+
+                    //marker
+                    var marker=new google.maps.Marker({
+                        position:madrasCafe,
+                        animation:google.maps.Animation.BOUNCE
+                    });
+
+                    marker.setMap(map);
+
+                    // line
+                    var myTrip = [madrasCafe, riverbed, aire];
+                    var flightPath = new google.maps.Polyline({
+                        path:myTrip,
+                        strokeColor:"#0000FF",
+                        strokeOpacity:0.8,
+                        strokeWeight:2
+                    });
+
+                    flightPath.setMap(map);
+
+                    // circle
+                    var office = new google.maps.Circle({
+                        center:riverbed,
+                        radius:500,
+                        strokeColor:"#0000FF",
+                        strokeOpacity:0.8,
+                        strokeWeight:2,
+                        fillColor:"#0000FF",
+                        fillOpacity:0.4
+                    });
+
+                    office.setMap(map);
+
+                    infowindow = new google.maps.InfoWindow();
+                    var service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch({
+                        location: riverbed,
+                        radius: 2000,
+                        type: ['cafe']
+                    }, callback);
+                }
+
+                function callback(results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                            createMarker(results[i]);
+                        }
+                    }
+                }
+
+                function createMarker(place) {
+                    var placeLoc = place.geometry.location;
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: place.geometry.location
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infowindow.setContent(place.name);
+                        infowindow.open(map, this);
+                    });
+                }
+            </script>
+        </head>
+        <body>
+            <div id="map"></div>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYKtmCXFTdF8tzRgF4NbZZ5_swmSzG_Uk&signed_in=true&libraries=places&callback=initMap" async defer></script>
+        </body>
+    </html>
