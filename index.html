@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/handlebars-v3.0.3.js"></script>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/map.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/L.Control.Locate.css" />
+
+    <script src="js/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.2"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="leaflet-google.js"></script>
+    <meta charset="UTF-8">
+    <title>Leaflet</title>
+</head>
+<body>
+
+<div class="container fill col-xs-12 col-md-12 col-lg-12">
+    <div id="map">
+        <script type='text/javascript'>
+            var map = new L.Map('map', {center: new L.LatLng(51.51, -0.11), zoom: 9});
+            var openmaps = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+            var googleLayer = new L.Google('ROADMAP');
+            // map.addLayer(openmaps);
+            map.addLayer(googleLayer);
+            map.locate({setView: true, maxZoom: 12, watch: true}) /* This will return map so you can do chaining */
+                    .on('locationfound', function(e){
+                        L.marker([e.latitude, e.longitude]).bindPopup('Your are here :)').addTo(map);
+                    });
+        </script>
+    </div>
+ </div>
+
+</body>
+</html>
