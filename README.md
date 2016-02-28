@@ -1,2 +1,2 @@
 # leaflet
-project using leaflet.js
+First project with leaflet.js using google maps and open street maps.
