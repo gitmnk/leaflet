@@ -25,18 +25,9 @@
 
     <meta charset="UTF-8">
 <script>
-    var map, googleMap, googleLayer;
+    var map;
+    var googleMap, googleLayer;
     var isInitialized = false;
-
-    function initGoogleMaps() {
-        var mapOptions = {
-            zoomControl: false,
-            mapTypeControl: false,
-            streetViewControl: false,
-        };
-        googleMap = new google.maps.Map(document.getElementById("map"), mapOptions);
-        isInitialized = true;
-    }
 
     function initMap() {
         var madrasCafe=new google.maps.LatLng(37.374284,-122.054956);
@@ -44,9 +35,11 @@
         var pyrmont = {lat: -33.867, lng: 151.195};
         var riverbed = new google.maps.LatLng(37.397707, -122.030075);
 
-        if (isInitialized === false) {
-            initGoogleMaps();
-        }
+        googleMap = new google.maps.Map(document.getElementById("googleMap")
+                , {
+                    center: riverbed,
+                    zoom: 14});
+        isInitialized = true;
 
         var service = new google.maps.places.PlacesService(googleMap);
         service.nearbySearch({
@@ -57,7 +50,8 @@
 
         map = new L.Map("map", {center: new L.LatLng(37.397707, -122.030075), zoom: 9});
         googleLayer = new L.Google('ROADMAP');
-        map.addLayer(googleLayer);
+        var openmaps = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+        map.addLayer(openmaps);
     }
 
     function callback(results, status) {
@@ -75,11 +69,13 @@
         console.log(lng);
         L.marker([lat,lng]).addTo(map);
     }
-    
 </script>
 </head>
 <body>
 <div id="map"></div>
+<div id="googleMap"></div>
+
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYKtmCXFTdF8tzRgF4NbZZ5_swmSzG_Uk&signed_in=true&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
