@@ -46,11 +46,11 @@
                     .on('locationfound', function(e) {
                            user_loc = e;
                            L.marker([e.latitude, e.longitude],
-                                    {icon: L.AwesomeMarkers.icon({icon: 'home', prefix: 'fa',markerColor: 'red'})})
+                                    {icon: L.AwesomeMarkers.icon({icon: 'home', prefix: 'fa',markerColor: 'red', shadowSize: [0, 0]})})
                                     .bindPopup('Your are here :)').addTo(map);
                     });
 
-                                     </script>
+        </script>
     </div>
  </div>
 
